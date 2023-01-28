@@ -19,8 +19,9 @@ export default function App() {
             case "Profile":
                 return <Profile />
             case "Login":
-                default:
-                    return <LoginRegPage />;
+                return <LoginRegPage />;
+            default:
+                return <LoginRegPage />;
         }
     };
 

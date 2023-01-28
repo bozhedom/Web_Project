@@ -29,8 +29,7 @@ export function Login() {
 
     const {page, changePage, login} = useContext(AppContext);
 
-    const handleLogin = (event?:React.MouseEvent<HTMLButtonElement>) => {
-        let target = event?.target as HTMLButtonElement;
+    const handleLogin = () => {
 
         const authInput: AuthInput = {
             login: inputLogin.current?.value ?? "",

@@ -51,7 +51,7 @@ export const AppContextProvider = ({children}: any) => {
         authRepository.getInfo().then((data) => {
             setState(data);
             if (!data.isAuthenticated) {
-                changePage("Login");
+                console.log(123)
             }
         });
     }, []);

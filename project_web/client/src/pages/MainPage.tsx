@@ -9,7 +9,6 @@ import React from "react";
 import {BottomNavigation, BottomNavigationAction, Box, SwipeableDrawer} from "@mui/material";
 import {NavBar} from "../pages/NavBar"
 export function MainPage() {
-    const {userName, isAuthenticated, role, page, changePage} = useContext(AppContext);
 
     return (
         <>

@@ -12,18 +12,34 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {useContext, useState} from "react";
+import {AppContext} from "../contexts/AppContext";
+import {AuthInput} from "../objects/AuthInput";
+import {AuthInfo} from "../objects/AuthInfo";
 
 const theme = createTheme();
 
 export function Registration() {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
-    };
+    const {registration, changePage} = useContext(AppContext)
+
+    const inputLogin: React.RefObject<HTMLInputElement> = React.createRef();
+    const inputPassword: React.RefObject<HTMLInputElement> = React.createRef();
+
+    const handleSignup = () => {
+        const registrationInput: AuthInput = {
+            login: inputLogin.current?.value ?? "",
+            password: inputPassword.current?.value ?? ""
+        }
+
+        console.log(registrationInput);
+
+        registration(registrationInput)
+            .then((data) => {
+                if(data.isAuthenticated){
+                    changePage("Home"   )
+                }
+            });
+    }
 
     return (
         <>
@@ -44,16 +60,16 @@ export function Registration() {
                     <Typography component="h1" variant="h5">
                         Зарегистрироватся
                     </Typography>
-                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                    <Box component="form" noValidate sx={{ mt: 3 }}>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 <TextField
                                     required
                                     fullWidth
-                                    id="email"
+                                    id="login"
                                     label="Логин"
-                                    name="email"
-                                    autoComplete="email"
+                                    name="login"
+                                    inputRef={inputLogin}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -64,18 +80,7 @@ export function Registration() {
                                     label="Пароль"
                                     type="password"
                                     id="password"
-                                    autoComplete="new-password"
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    name="password"
-                                    label="Повторить пароль"
-                                    type="password"
-                                    id="password"
-                                    autoComplete="new-password"
+                                    inputRef={inputPassword}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -86,6 +91,7 @@ export function Registration() {
                             </Grid>
                         </Grid>
                         <Button
+                            onClick={handleSignup}
                             type="submit"
                             fullWidth
                             variant="contained"
